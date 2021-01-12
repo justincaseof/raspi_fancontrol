@@ -17,13 +17,14 @@ const CONFIG_FILENAME = "config.yml"
 var processing bool
 
 type AppConfig struct {
-	IsSimulation bool                   `yaml:"is-simulation"`
-	GPIOconfig   gpiocontrol.GPIOConfig `yaml:"gpio-config"`
-	FanOnTemp    float32		    `yaml:"fan-on-temp"`
-        FanOffTemp   float32                `yaml:"fan-off-temp"`
+	IsSimulation   bool                   `yaml:"is-simulation"`
+	GPIOconfig     gpiocontrol.GPIOConfig `yaml:"gpio-config"`
+	FanOnTemp      float32		      `yaml:"fan-on-temp"`
+        FanOffTemp     float32                `yaml:"fan-off-temp"`
+	CheckInterval  uint32                 `yaml:"check-interval"`
 }
 
-var appConfig AppConfig
+var appConfig = AppConfig {CheckInterval: 5}	// defaults go here
 
 func main() {
 	fmt.Println("### STARTUP")
@@ -62,7 +63,7 @@ func readConfig(appConfig *AppConfig) {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println("GPIOConfig parsed.")
+	fmt.Println("Config parsed.")
 }
 
 func mainLoop() {
@@ -71,7 +72,7 @@ func mainLoop() {
 
 	for {
 		select {
-		case <-time.After(1 * time.Second):
+		case <-time.After(time.Duration(appConfig.CheckInterval) * time.Second):
 			{
 				handleState()
 			}
