@@ -31,6 +31,7 @@ func main() {
 
 	// READ CONFIG
 	readConfig(&appConfig)
+	validate(&appConfig)
 
 	// INIT
 	err := gpiocontrol.InitGPIO(&appConfig.GPIOconfig)
@@ -64,6 +65,13 @@ func readConfig(appConfig *AppConfig) {
 		panic(err)
 	}
 	fmt.Println("Config parsed.")
+}
+
+func validate(appConfig *AppConfig) {
+  if appConfig.FanOnTemp <= appConfig.FanOffTemp {
+    panic("ON temp must be higher than OFF temp")
+  }
+  fmt.Println("Config OK")
 }
 
 func mainLoop() {

@@ -1,5 +1,5 @@
 is-simulation: true
-check-interval: 1
+check-interval: 5
 gpio-config:
   fan-pin: GPIO18
 fan-on-temp: 55
