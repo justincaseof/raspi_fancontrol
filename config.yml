@@ -1,0 +1,5 @@
+is-simulation: true
+gpio-config:
+  fan-pin: GPIO18
+fan-on-temp: 55
+fan-off-temp: 40
